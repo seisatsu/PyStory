@@ -107,30 +107,23 @@ def remove_scene(order_id):
 			data[-1]["scenes"][n]["order_id"] -= 1
 	return found
 
-def move_scene(pos, newpos): # Broken
-	"""global data
-	found = False
+def move_scene(pos, amount):
+	global data
+	newpos = pos + amount
 	for n, scene in enumerate(data[-1]["scenes"]): # Find the target to move.
 		if scene["order_id"] == pos:
 			pos_oid = n
-			data[-1]["scenes"][n]["order_id"] = -1 # Move this out of the way.
-			found = True
-	if not found:
-		return False
-	for n, scene in enumerate(data[-1]["scenes"]): # Start by filling the gap.
+			data[-1]["scenes"][n]["order_id"] = None # Move this out of the way.
+	for n, scene in enumerate(data[-1]["scenes"]): # Move scenes to accomodate.
 		if pos < newpos:
-			if scene["order_id"] > pos:
+			if scene["order_id"] > pos and scene["order_id"] <= newpos:
 				data[-1]["scenes"][n]["order_id"] -= 1
 		else:
-			if scene["order_id"] >= pos:
-				data[-1]["scenes"][n]["order_id"] += 1
-	for n, scene in enumerate(data[-1]["scenes"]): # Push other scenes out of the way.
-			if scene["order_id"] >= newpos:
+			if scene["order_id"] < pos and scene["order_id"] >= newpos:
 				data[-1]["scenes"][n]["order_id"] += 1
 	data[-1]["scenes"][pos_oid]["order_id"] = newpos # Re-insert."""
-	return False#True
-	
-	
+	return True
+
 def set_info(key, value):
 	global data
 	print data
@@ -213,7 +206,7 @@ def abs_to_sql():
 	
 	for scene in data[-1]["scenes"]: # Save scenes.
 		qqueue.append(
-			"""INSERT INTO scenes (order_id, name, contents, last_modified)
+			"""INSERT INTO scenes (order_id, name, contents)
 			VALUES ('{0}', '{1}', '{2}')""".format(
 				str(scene["order_id"]), E(scene["name"]), E(scene["contents"])
 			)

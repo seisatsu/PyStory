@@ -16,7 +16,7 @@ working_dir = "./"
 #####
 # External text editor command to use for viewing/editing scene contents.
 ##########
-editor = "nano -Ltw"
+editor = "nano -Ltw" # "gedit -w"
 ##########
 
 #####

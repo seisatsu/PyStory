@@ -126,15 +126,15 @@ def cmd_move(args, context):
 		return False
 	try:
 		pos = int(args[0])
-		newpos = int(args[1])
+		amount = int(args[1])
 	except (ValueError):
 		return False
-	if pos < 1:
-		pos = 1
-	elif pos > len(sf.data[-1]["scenes"])+1:
-		pos = len(sf.data[-1]["scenes"])+1
+	if pos < 1 or pos > len(sf.data[-1]["scenes"]):
+		return False
+	if pos + amount < 1 or pos + amount > len(sf.data[-1]["scenes"]):
+		return False
 	sf.new_revision()
-	if not sf.move_scene(pos, newpos):
+	if not sf.move_scene(pos, amount):
 		return False
 	body = "Scene moved."
 	return {"body": body}
@@ -195,9 +195,7 @@ def cmd_remove(args, context):
 	try: # See if the scene specifier is an integer.
 		if len(args) == 1:
 			pos = int(args[0])
-			if pos < 1:
-				return False
-			if pos > len(sf.data[-1]["scenes"]):
+			if pos < 1 or pos > len(sf.data[-1]["scenes"]):
 				return False
 		else:
 			raise ValueError
@@ -347,7 +345,7 @@ usage = {
 	"h": "(h)elp [command]",
 	"i": "(i)nfo",
 	"l": "(l)ist [range]",
-	"m": "(m)ove <number> <position>",
+	"m": "(m)ove <number> <+/-amount>",
 	"n": "(n)ame [value]",
 	"o": "(o)pen <file>",
 	"p": "(p)ut <position> <name>",
@@ -371,7 +369,7 @@ help = {
 	"h": "View the help for a command, or the list of commands.",
 	"i": "Enter the story's info menu.",
 	"l": "List the scenes in the story, in order or by range.",
-	"m": "Move the specified scene by number to the specified new position.",
+	"m": "Modify the position of the numbered scene by the specified amount.",
 	"n": "View or change the name string of the story or scene.",
 	"o": "Open a story file.",
 	"p": "Insert a new scene of the specified name at the specified position.",
@@ -382,6 +380,6 @@ help = {
 	"u": "Undo the previous action, or several previous actions.",
 	"v": "Enter the specified scene's menu by name or position.",
 	"no": "Edit the story notes.",
-	"mod": "Show when the story or scene was last saved."
+	"mod": "Show when the story was last saved."
 }
 
