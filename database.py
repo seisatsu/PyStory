@@ -30,7 +30,6 @@
 
 import sqlite3, time
 
-SQLITE3_MAX_INT = 9223372036854775808
 PYSTORY_VER = "PYSTORY_002"
 
 ### Database Structure ###

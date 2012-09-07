@@ -106,9 +106,30 @@ def remove_scene(order_id):
 			data[-1]["scenes"][n]["order_id"] -= 1
 	return found
 
-def move_scene(pos, newpos):
-	pass #XXX
-
+def move_scene(pos, newpos): # Broken
+	"""global data
+	found = False
+	for n, scene in enumerate(data[-1]["scenes"]): # Find the target to move.
+		if scene["order_id"] == pos:
+			pos_oid = n
+			data[-1]["scenes"][n]["order_id"] = -1 # Move this out of the way.
+			found = True
+	if not found:
+		return False
+	for n, scene in enumerate(data[-1]["scenes"]): # Start by filling the gap.
+		if pos < newpos:
+			if scene["order_id"] > pos:
+				data[-1]["scenes"][n]["order_id"] -= 1
+		else:
+			if scene["order_id"] >= pos:
+				data[-1]["scenes"][n]["order_id"] += 1
+	for n, scene in enumerate(data[-1]["scenes"]): # Push other scenes out of the way.
+			if scene["order_id"] >= newpos:
+				data[-1]["scenes"][n]["order_id"] += 1
+	data[-1]["scenes"][pos_oid]["order_id"] = newpos # Re-insert."""
+	return False#True
+	
+	
 def set_info(key, value):
 	global data
 	print data

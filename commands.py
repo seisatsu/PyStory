@@ -138,7 +138,7 @@ def cmd_move(args, context):
 		else:
 			raise ValueError
 	except (ValueError): # It wasn't.
-		pos = get_scenes_by_pattern(' '.join(args[1:]))
+		pos = sf.get_scenes_by_pattern(' '.join(args[1:]))
 		if not pos: # No such scene.
 			return False
 		if len(pos) > 1: # Multiple matches.
@@ -179,7 +179,7 @@ def cmd_open(args, context):
 	return {"open": args[0]}
 
 def cmd_put(args, context):
-	if len(args) != 2:
+	if len(args) < 2:
 		return False
 	try: # Get destination position and fit within bounds.
 		pos = int(args[0])
