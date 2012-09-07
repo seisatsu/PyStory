@@ -45,17 +45,12 @@ def menu_initial():
 
 # Menu shown when a story has been loaded.
 def menu_story():
-	print "->(i)nfo, (l)ist, ->(v)iew, (p)ut, (r)emove, (m)ove, (s)ave, (u)ndo, (c)lose, (q)uit, (h)elp"
-	return raw_input("> ").split(" ")
-
-# Menu shown for story info.
-def menu_info():
-	print "(n)ame, (a)uthor, (d)escription, (no)tes, (mod)ified, ->(b)ack, (s)ave, (u)ndo, (c)lose, (q)uit, (h)elp"
+	print "[(v)iew], (n)ame, (a)uthor, (d)escription, (no)tes, (l)ist, (p)ut, (r)emove, (m)ove, (mod)ified, (s)ave, (u)ndo, (c)lose, (q)uit, (h)elp"
 	return raw_input("> ").split(" ")
 
 # Menu shown for scene info.
 def menu_scene():
-	print "(n)ame, (t)ext, ->(b)ack, (s)ave, (u)ndo, (c)lose, (q)uit, (h)elp"
+	print "[(b)ack], (n)ame, (t)ext, (s)ave, (u)ndo, (c)lose, (q)uit, (h)elp"
 	return raw_input("> ").split(" ")
 
 # Menu shown when saving.

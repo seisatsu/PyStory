@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 ######################################
 ## PyStory Storyboard Manager       ##
 ## pystory.py                       ##
@@ -31,7 +32,7 @@
 import os, sys, signal
 import config, commands, database, menu, storyfile
 
-VERSION = "PyStory v0.0.2-alpha"
+VERSION = "PyStory v0.0.3-alpha"
 
 ### Internal Variables ###
 
@@ -51,9 +52,8 @@ running = True
 ### Command Lists ###
 
 cmdlist_init = ['o', 'q', 'h']
-cmdlist_story = ['i', 'l', 'v', 'p', 'r', 'm', 's', 'u', 'c', 'q', 'h']
-cmdlist_info = ['n', 'a', 'd', 'no', 'mod', 'b', 's', 'u', 'c', 'q', 'h']
-cmdlist_scene = ['n', 't', 'b', 's', 'u', 'c', 'q', 'h']
+cmdlist_story = ['v', 'n', 'a', 'd', 'no', 'l', 'p', 'r', 'm', 'mod', 's', 'u', 'c', 'q', 'h']
+cmdlist_scene = ['b', 'n', 't', 's', 'u', 'c', 'q', 'h']
 
 ### Helper Functions ###
 
@@ -89,11 +89,7 @@ def command_handler(cmd, cmdlist):
 		if "body" in c: # Set the interface body text.
 			body = c["body"]
 		if "context" in c: # Modify context.
-			if c["context"][0] == "INFO":
-				context[0] = "Story: \"{0}\"".format(
-					storyfile.data[-1]["info"]["name"]
-				)
-			elif c["context"][0] == "SCENE":
+			if c["context"][0] == "SCENE":
 				print c["context"][1]
 				context[0] = "Scene: \"{0}\"".format(
 					storyfile.get_scene_by_id(c["context"][1])[1]
@@ -101,7 +97,7 @@ def command_handler(cmd, cmdlist):
 			context[1] = c["context"][0]
 			context[2] = c["context"][1]
 		elif "back" in c: # Move to STORY menu.
-			context[0] = storyfile.data[-1]["info"]["name"]
+			context[0] = "\"{0}\"".format(storyfile.data[-1]["info"]["name"])
 			context[1] = "STORY"
 			context[2] = None
 		elif "close" in c: # Close the file.
@@ -117,11 +113,7 @@ def command_handler(cmd, cmdlist):
 		elif "undo" in c: # Revert changes.
 			undo(c["undo"])
 			if context[1] == "STORY":
-				context[0] = storyfile.data[-1]["info"]["name"]
-			elif context[1] == "INFO":
-				context[0] = "Story: \"{0}\"".format(
-					storyfile.data[-1]["info"]["name"]
-				)
+				context[0] = "\"{0}\"".format(storyfile.data[-1]["info"]["name"])
 			elif context[1] == "SCENE":
 				context[0] = "Scene: \"{0}\"".format(
 					storyfile.get_scene_by_id(c["context"][1])[1]
@@ -157,7 +149,7 @@ def open_story(path):
 		body = "Story file structure version mismatch."
 		return 
 	storyfile.sql_to_abs()
-	context = [storyfile.data[-1]["info"]["name"], "STORY", None]
+	context = ["\"{0}\"".format(storyfile.data[-1]["info"]["name"]), "STORY", None]
 
 # Handle quitting.
 def quit():
@@ -240,8 +232,6 @@ while running:
 		command_handler(menu.menu_initial(), cmdlist_init)
 	elif context[1] == "STORY": # Story Menu
 		command_handler(menu.menu_story(), cmdlist_story)
-	elif context[1] == "INFO": # Info Menu
-		command_handler(menu.menu_info(), cmdlist_info)
 	elif context[1] == "SCENE": # Scene Menu
 		command_handler(menu.menu_scene(), cmdlist_scene)
 

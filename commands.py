@@ -88,11 +88,6 @@ def cmd_help(args, context):
 		return False
 	return {"body": body}
 
-def cmd_info(args, context):
-	if len(args) != 0:
-		return False
-	return {"context": ("INFO", None)}
-
 def cmd_list(args, context):
 	if len(args) > 1:
 		return False
@@ -140,14 +135,14 @@ def cmd_move(args, context):
 	return {"body": body}
 
 def cmd_name(args, context):
-	if context[1] == "INFO":
+	if context[1] == "STORY":
 		if len(args) == 0: # Show story name.
 			body = "Story Name: "+sf.data[-1]["info"]["name"]
 		else: # Change story name.
 			sf.new_revision()
 			sf.set_info("name", ' '.join(args))
 			body = "Story name updated."
-			c = "Story: "
+			c = ""
 	elif context[1] == "SCENE":
 		if len(args) == 0: # Show scene name.
 			body = "Scene Name: "+sf.get_scene_by_id(context[2])[1]
@@ -295,7 +290,6 @@ commands = {
 	"c": cmd_close,
 	"d": cmd_description,
 	"h": cmd_help,
-	"i": cmd_info,
 	"l": cmd_list,
 	"m": cmd_move,
 	"n": cmd_name,
@@ -319,7 +313,6 @@ fullnames = [
 	"close",
 	"description",
 	"help",
-	"info",
 	"list",
 	"move",
 	"name",
@@ -343,7 +336,6 @@ usage = {
 	"c": "(c)lose",
 	"d": "(d)escription [value]",
 	"h": "(h)elp [command]",
-	"i": "(i)nfo",
 	"l": "(l)ist [range]",
 	"m": "(m)ove <number> <+/-amount>",
 	"n": "(n)ame [value]",
@@ -367,7 +359,6 @@ help = {
 	"c": "Close the current story file.",
 	"d": "View or change the description string.",
 	"h": "View the help for a command, or the list of commands.",
-	"i": "Enter the story's info menu.",
 	"l": "List the scenes in the story, in order or by range.",
 	"m": "Modify the position of the numbered scene by the specified amount.",
 	"n": "View or change the name string of the story or scene.",
