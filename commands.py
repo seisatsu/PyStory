@@ -280,19 +280,11 @@ def cmd_notes(args, context):
 def cmd_modified(args, context):
 	if len(args) != 0:
 		return False
-	if context[1] == "INFO":
-		lm = get("SELECT last_modified FROM info")
-	elif context[1] == "SCENE":
-		lm = get("SELECT last_modified FROM scenes WHERE order_id='{0}'".format(
-			context[2]
-		))
-	if len(lm):
-		lm = lm[0][0]
-		body = "Last modified: {0}".format(
-			time.strftime("%B %d %Y at %I:%M:%S%P %Z", time.localtime(lm))
-		)
-	else:
-		body = "Last modified: Never"
+	lm = get("SELECT last_modified FROM info")
+	lm = lm[0][0]
+	body = "Last modified: {0}".format(
+		time.strftime("%B %d %Y at %I:%M:%S%P %Z", time.localtime(lm))
+	)
 	return {"body": body}
 
 ### Maps ###

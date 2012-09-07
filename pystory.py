@@ -53,7 +53,7 @@ running = True
 cmdlist_init = ['o', 'q', 'h']
 cmdlist_story = ['i', 'l', 'v', 'p', 'r', 'm', 's', 'u', 'c', 'q', 'h']
 cmdlist_info = ['n', 'a', 'd', 'no', 'mod', 'b', 's', 'u', 'c', 'q', 'h']
-cmdlist_scene = ['n', 't', 'mod', 'b', 's', 'u', 'c', 'q', 'h']
+cmdlist_scene = ['n', 't', 'b', 's', 'u', 'c', 'q', 'h']
 
 ### Helper Functions ###
 

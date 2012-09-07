@@ -55,7 +55,7 @@ def menu_info():
 
 # Menu shown for scene info.
 def menu_scene():
-	print "(n)ame, (t)ext, (mod)ified, ->(b)ack, (s)ave, (u)ndo, (c)lose, (q)uit, (h)elp"
+	print "(n)ame, (t)ext, ->(b)ack, (s)ave, (u)ndo, (c)lose, (q)uit, (h)elp"
 	return raw_input("> ").split(" ")
 
 # Menu shown when saving.

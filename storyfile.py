@@ -214,9 +214,8 @@ def abs_to_sql():
 	for scene in data[-1]["scenes"]: # Save scenes.
 		qqueue.append(
 			"""INSERT INTO scenes (order_id, name, contents, last_modified)
-			VALUES ('{0}', '{1}', '{2}', '{3}')""".format(
-				str(scene["order_id"]), E(scene["name"]), E(scene["contents"]),
-				str(int(time.time()))
+			VALUES ('{0}', '{1}', '{2}')""".format(
+				str(scene["order_id"]), E(scene["name"]), E(scene["contents"])
 			)
 		)
 	
