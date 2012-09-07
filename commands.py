@@ -134,7 +134,8 @@ def cmd_move(args, context):
 	elif pos > len(sf.data[-1]["scenes"])+1:
 		pos = len(sf.data[-1]["scenes"])+1
 	sf.new_revision()
-	sf.move_scene(pos, newpos)
+	if not sf.move_scene(pos, newpos):
+		return False
 	body = "Scene moved."
 	return {"body": body}
 
@@ -221,7 +222,7 @@ def cmd_save(args, context):
 def cmd_text(args, context):
 	if len(args) != 0:
 		return False
-	contents = sf.text_edit(context[2])
+	contents = sf.text_edit(sf.get_scene_by_id(context[2])[2])
 	if not contents:
 		body = "Error processing tempfile."
 		return {"body": body}
@@ -265,6 +266,17 @@ def cmd_view(args, context):
 		pos = scenes[0][0]
 	return {"context": ("SCENE", pos)}
 
+def cmd_notes(args, context):
+	if len(args) != 0:
+		return False
+	contents = sf.text_edit(sf.data[-1]["info"]["notes"])
+	if not contents:
+		body = "Error processing tempfile."
+		return {"body": body}
+	sf.set_info("notes", contents)
+	body = "Notes updated."
+	return {"body": body}
+
 def cmd_modified(args, context):
 	if len(args) != 0:
 		return False
@@ -305,6 +317,7 @@ commands = {
 	"t": cmd_text,
 	"u": cmd_undo,
 	"v": cmd_view,
+	"no": cmd_notes,
 	"mod": cmd_modified
 }
 
@@ -328,6 +341,7 @@ fullnames = [
 	"text",
 	"undo",
 	"view",
+	"notes",
 	"modified"
 ]
 
@@ -351,6 +365,7 @@ usage = {
 	"t": "(t)ext",
 	"u": "(u)ndo [steps]",
 	"v": "(v)iew <scene>",
+	"no": "(no)tes",
 	"mod": "(mod)ified"
 }
 
@@ -374,6 +389,7 @@ help = {
 	"t": "Edit the contents of the scene.",
 	"u": "Undo the previous action, or several previous actions.",
 	"v": "Enter the specified scene's menu by name or position.",
+	"no": "Edit the story notes.",
 	"mod": "Show when the story or scene was last saved."
 }
 

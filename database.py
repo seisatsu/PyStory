@@ -30,15 +30,16 @@
 
 import sqlite3, time
 
-PYSTORY_VER = "PYSTORY_002"
+PYSTORY_VER = "PYSTORY_003"
 
 ### Database Structure ###
 """
 info:= pystory_ver, name, author, description, last_modified
-	pystory_ver:= PYSTORY_002
+	pystory_ver:= PYSTORY_003
 	name:= A Disastrous Celebration
 	author:= The Mighty Shwan Nolastname
 	description:= A party goes terribly wrong.
+	notes:= (STORY NOTES)
 	last_modified:= 1346807742
 
 scenes:= order_id, name, contents, last_modified
@@ -54,7 +55,7 @@ scenes:= order_id, name, contents, last_modified
 # Structure of the info table. Changing this will break the software.
 i_table = """CREATE TABLE IF NOT EXISTS info
           (pystory_ver TEXT, name TEXT, author TEXT, description TEXT,
-          last_modified INTEGER)"""
+          notes TEXT, last_modified INTEGER)"""
 
 ## Scenes Table ##
 # Structure of the scenes table. Changing this will break the software.
@@ -64,8 +65,9 @@ s_table = """CREATE TABLE IF NOT EXISTS scenes
 ## Initial Info ##
 # This is the initial contents of the info table.
 initinfo = """INSERT INTO info (pystory_ver, name, author, description,
-           last_modified) VALUES ('{0}', 'Untitled Story', 'Unknown Author',
-           'No Description', '{1}')""".format(PYSTORY_VER, str(int(time.time())))
+           notes, last_modified) VALUES ('{0}', 'Untitled Story', 
+           'Unknown Author', 'No Description', '', '{1}')
+           """.format(PYSTORY_VER, str(int(time.time())))
 
 ## Database Handle ##
 # A connection to the story file database.

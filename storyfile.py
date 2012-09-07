@@ -42,12 +42,13 @@ init_data = {
 		#"name": "",
 		#"author": "",
 		#"description": "",
+		#"notes": ""
 	},
 	"scenes": [
 		#{
 			#"order_id": 0,
 			#"name": "",
-			#"contents": "",
+			#"contents": ""
 		#}
 	]
 }
@@ -168,16 +169,15 @@ def get_all_scenes_by_id():
 		scenes.append((scene["order_id"], scene["name"]))
 	return tuple(sorted(scenes))
 
-def text_edit(order_id):
-	scene = get_scene_by_id(order_id) # Get current contents, if any.
+def text_edit(curr):
 	try:
 		f = open("{0}{1}".format( # Make sure the tempfile will exist.
 			config.working_dir, config.temp_file
 		) , "w")
 	except (IOError): # Couldn't open the tempfile.
 		return False
-	if scene[2]: # Put the current contents into the tempfile.
-		f.write(scene[2])
+	if curr: # Put the current contents into the tempfile.
+		f.write(curr)
 	f.close()
 	subprocess.call("{0} {1}{2}".format( # Open the editor on the tempfile.
 		config.editor, config.working_dir, config.temp_file
@@ -201,10 +201,11 @@ def abs_to_sql():
 	
 	qqueue.append( # Save the info table.
 		"""UPDATE info SET pystory_ver='{0}', name='{1}', author='{2}',
-		description='{3}', last_modified='{4}'""".format(
+		description='{3}', notes='{4}', last_modified='{5}'""".format(
 			PYSTORY_VER,
 			E(data[-1]["info"]["name"]), E(data[-1]["info"]["author"]),
-			E(data[-1]["info"]["description"]), str(int(time.time()))
+			E(data[-1]["info"]["description"]), E(data[-1]["info"]["notes"]),
+			str(int(time.time()))
 		)
 	)
 	
@@ -227,8 +228,9 @@ def sql_to_abs():
 	global data, last_save
 	data = [copy.deepcopy(init_data)] # Make sure data is reset.
 	
-	info = get("SELECT name,author,description FROM info")[0] # Get info.
-	data[0]["info"] = {"name": info[0], "author": info[1], "description": info[2]}
+	info = get("SELECT name,author,description,notes FROM info")[0] # Get info.
+	data[0]["info"] = {"name": info[0], "author": info[1], 
+	                   "description": info[2], "notes": info[3]}
 	
 	scenes = get("SELECT order_id,name,contents FROM scenes") # Get scenes.
 	for scene in scenes:

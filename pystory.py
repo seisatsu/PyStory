@@ -31,7 +31,7 @@
 import os, sys, signal
 import config, commands, database, menu, storyfile
 
-VERSION = "PyStory v0.0.1-alpha"
+VERSION = "PyStory v0.0.2-alpha"
 
 ### Internal Variables ###
 
@@ -52,7 +52,7 @@ running = True
 
 cmdlist_init = ['o', 'q', 'h']
 cmdlist_story = ['i', 'l', 'v', 'p', 'r', 'm', 's', 'u', 'c', 'q', 'h']
-cmdlist_info = ['n', 'a', 'd', 'mod', 'b', 's', 'u', 'c', 'q', 'h']
+cmdlist_info = ['n', 'a', 'd', 'no', 'mod', 'b', 's', 'u', 'c', 'q', 'h']
 cmdlist_scene = ['n', 't', 'mod', 'b', 's', 'u', 'c', 'q', 'h']
 
 ### Helper Functions ###
@@ -152,6 +152,10 @@ def open_story(path):
 	if not database.opendb(path):
 		body = "Unable to open file."
 		return
+	ver = database.get("SELECT pystory_ver FROM info")[0][0] # Check version.
+	if ver != database.PYSTORY_VER:
+		body = "Story file structure version mismatch."
+		return 
 	storyfile.sql_to_abs()
 	context = [storyfile.data[-1]["info"]["name"], "STORY", None]
 

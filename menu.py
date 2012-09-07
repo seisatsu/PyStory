@@ -50,7 +50,7 @@ def menu_story():
 
 # Menu shown for story info.
 def menu_info():
-	print "(n)ame, (a)uthor, (d)escription, (mod)ified, ->(b)ack, (s)ave, (u)ndo, (c)lose, (q)uit, (h)elp"
+	print "(n)ame, (a)uthor, (d)escription, (no)tes, (mod)ified, ->(b)ack, (s)ave, (u)ndo, (c)lose, (q)uit, (h)elp"
 	return raw_input("> ").split(" ")
 
 # Menu shown for scene info.
