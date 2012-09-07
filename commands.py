@@ -122,28 +122,17 @@ def cmd_list(args, context):
 	return {"body": body}
 
 def cmd_move(args, context):
-	if len(args) < 2:
+	if len(args) != 2:
 		return False
 	try:
-		newpos = int(args[0])
+		pos = int(args[0])
+		newpos = int(args[1])
 	except (ValueError):
 		return False
-	try: # See if the scene specifier is an integer.
-		if len(args) == 2:
-			pos = int(args[1])
-			if pos < 1:
-				pos = 1
-			elif pos > len(sf.data[-1]["scenes"])+1:
-				pos = len(sf.data[-1]["scenes"])+1
-		else:
-			raise ValueError
-	except (ValueError): # It wasn't.
-		pos = sf.get_scenes_by_pattern(' '.join(args[1:]))
-		if not pos: # No such scene.
-			return False
-		if len(pos) > 1: # Multiple matches.
-			body = "Ambiguous scene selection."
-			return {"body": body}
+	if pos < 1:
+		pos = 1
+	elif pos > len(sf.data[-1]["scenes"])+1:
+		pos = len(sf.data[-1]["scenes"])+1
 	sf.new_revision()
 	sf.move_scene(pos, newpos)
 	body = "Scene moved."
@@ -352,7 +341,7 @@ usage = {
 	"h": "(h)elp [command]",
 	"i": "(i)nfo",
 	"l": "(l)ist [range]",
-	"m": "(m)ove <position> <scene>",
+	"m": "(m)ove <number> <position>",
 	"n": "(n)ame [value]",
 	"o": "(o)pen <file>",
 	"p": "(p)ut <position> <name>",
@@ -375,7 +364,7 @@ help = {
 	"h": "View the help for a command, or the list of commands.",
 	"i": "Enter the story's info menu.",
 	"l": "List the scenes in the story, in order or by range.",
-	"m": "Move the specified scene by name or position to the specified new position.",
+	"m": "Move the specified scene by number to the specified new position.",
 	"n": "View or change the name string of the story or scene.",
 	"o": "Open a story file.",
 	"p": "Insert a new scene of the specified name at the specified position.",
