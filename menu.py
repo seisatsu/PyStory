@@ -25,7 +25,7 @@
 ## **********
 
 ###########################
-# Interface Menu Handling #
+# Interface Menu Sections #
 ###########################
 
 ### Helper Functions ###
