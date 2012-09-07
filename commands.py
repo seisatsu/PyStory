@@ -276,7 +276,7 @@ def cmd_modified(args, context):
 	lm = get("SELECT last_modified FROM info")
 	lm = lm[0][0]
 	body = "Last modified: {0}".format(
-		time.strftime("%B %d %Y at %I:%M:%S%P %Z", time.localtime(lm))
+		time.strftime(config.timestamp_format, time.localtime(lm))
 	)
 	return {"body": body}
 
