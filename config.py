@@ -8,7 +8,7 @@
 ##############################
 
 #####
-# Working directory, with the trailing slash.
+# Working directory (for storing tempfile), with the trailing slash.
 ##########
 working_dir = "./"
 ##########
